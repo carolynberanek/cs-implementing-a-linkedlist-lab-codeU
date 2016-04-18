@@ -85,7 +85,36 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public void add(int index, E element) {
-		// TODO: fill this in
+			
+		
+		if ((index > size) || (index < 0))
+		{
+			throw new IndexOutOfBoundsException();
+		}
+		else if (index == size) //node is only node in list, or insert at last place, can just add
+		{
+			add(element);
+		}
+		else if (index == 0) //adds to beginning of list
+		{
+			Node newNode = new Node(element, head);
+			head = newNode;
+			size++;
+		}
+		else //normal case
+		{
+			Node prev = head;
+			Node temp = prev.next;
+			for (int i = 1; i < index; i++)
+			{
+				temp = temp.next;
+				prev = prev.next;
+			}
+			
+			Node newNode = new Node(element, temp);
+			prev.next = newNode;
+			size++;
+		}
 	}
 
 	@Override
@@ -146,7 +175,13 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public int indexOf(Object target) {
-		// TODO: fill this in
+		Node temp = head;
+		for (int i = 0; i < size; i++)
+		{
+			if (equals(temp.cargo, target))
+				return i;
+			temp = temp.next;
+		}
 		return -1;
 	}
 
@@ -201,14 +236,43 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public boolean remove(Object obj) {
-		// TODO: fill this in
-		return false;
+		if (contains(obj) == false)
+			return false;
+		else
+		{
+			remove(indexOf(obj));
+			return true;
+		}
 	}
 
 	@Override
 	public E remove(int index) {
-		// TODO: fill this in
-		return null;
+		
+		if (index >= size)
+			throw new IndexOutOfBoundsException();
+		else if(index == 0)
+		{
+			E ret = head.cargo;
+			head = head.next;
+			size--;
+			return ret;
+		}
+		else
+		{
+			Node prev = head;
+			Node temp = prev.next;
+			for (int i = 1; i <- index; i++)
+			{
+				prev = prev.next;
+				temp = temp.next;
+			}
+			E ret = temp.cargo;
+			prev.next = temp.next;
+			temp.next = null;
+			size--;
+			return ret;
+		}
+				
 	}
 
 	@Override
